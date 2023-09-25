@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>Talk: Whats new in Livewire v3 | Adrian Nürnberger</title>
+		<title>Talk: Testable Actions in Pest | Adrian Nürnberger</title>
 
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
@@ -63,646 +63,490 @@
 					transform: rotate(57deg) translate(-11px, -10px);
 				}
 			}
+			.two-col {
+				position: absolute;
+				width: 80vw;
+				left: -20%;
+				display: flex;
+				gap: 2rem;
+			}
 		</style>
 		<div class="reveal">
 			<div class="slides">
-				<section>
-					<section data-auto-animate data-background-gradient="linear-gradient(to bottom, #152c3a, rgb(15 23 42))">
-						<h1 class="r-fit-text fragment" data-fragment-index="1">Hello, I am Adrian!</h1>
-						<div style="max-width: 60%; margin: 0 auto;">
-							<h1 class="r-fit-text">
-								<div style="display: inline-flex;">
-									<span class="r-stack">
-										<span class="fragment fade-in" data-fragment-index="2">
-											<span class="fragment highlight-red" data-fragment-index="4">
-											  <span class="fragment custom vanish" data-fragment-index="5">FULL</span>
-											</span>
-										</span>
-										<span class="fragment fade-down" data-fragment-index="5">TALL</span>
+				<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat top/cover url(assets/bg-head.webp)">
+					<h1 class="r-fit-text fragment" data-fragment-index="1">Hello, I am Adrian!</h1>
+					<div style="max-width: 60%; margin: 0 auto;">
+						<h1 class="r-fit-text">
+							<span class="fragment" data-fragment-index="2">TALL-Stack Developer</span><br>
+						</h1>
+						<p class="fragment" data-fragment-index="3">from 🇦🇹 Vienna</p>
+						<div style="display: inline-flex;">
+							<span class="fragment" data-fragment-index=4">I ❤️ writing&nbsp;</span>
+							<span class="r-stack">
+								<span class="fragment fade-in" data-fragment-index="4">
+									<span class="fragment highlight-red" data-fragment-index="5">
+									  <span class="fragment custom vanish" data-fragment-index="6">Tests</span>
 									</span>
-									<span class="fragment" data-fragment-index="2">-Stack</span>
-								</div>
-								<span class="fragment" data-fragment-index="2">Developer</span>
-							</h1>
-							<p class="fragment" data-fragment-index="3">from 🇦🇹 Vienna</p>
+								</span>
+								<span class="fragment fade-down" data-fragment-index="6">Pest</span>
+							</span>
 						</div>
-					</section>
-					<section data-auto-animate data-background-gradient="linear-gradient(to bottom, rgb(15 23 42), #152c3a)">
-						<h1 class="r-fit-text">My vacation routine</h1>
-						<ul style="list-style: none; display: inline-grid; gap:2rem;">
-							<li class="fragment">🏝️ <pre class="inline"><code class="language-php">collect($vacation)->contains('me', '🌊')</code></pre></li>
-							<li class="fragment">🤿 <pre class="inline"><code class="language-php">throw_unless($diving || $snorkeling, BadVibes::class)</code></pre></li>
-							<li class="fragment">📷 <pre class="inline"><code class="language-php">while($underwater) $take('pictures' || 'videos')</code></pre></li>
-						</ul>
-					</section>
-					<section data-background-image="assets/jelly-01.jpg"></section>
-					<section data-background-image="assets/jelly-02.jpg"></section>
-					<section data-background-image="assets/jelly-03.jpg"></section>
-					<section data-background-image="assets/jelly-04-1.png"></section>
-					<section data-background-image="assets/jelly-05-1.png"></section>
-					<section data-auto-animate data-background-gradient="linear-gradient(to bottom, #1f8281, rgb(15 23 42))">
-						<img src="assets/livewire.svg" class="r-stretch" />
-					</section>
-					<section data-auto-animate data-background-gradient="linear-gradient(to bottom, #1f8281, rgb(15 23 42))" data-transition="slide-out">
-						<img src="assets/livewire.svg" class="r-stretch" />
-						<h1 style="text-align: right"><span class="fragment">v3</span><span class="fragment">&nbsp;BETA</span></h1>
-					</section>
+					</div>
 				</section>
 				<!-- END INTRO -->
-				<!-- START ALPINE -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<img src="assets/livewire.svg" class="r-stretch" />
-						<span style="font-size: 8rem" class="fragment" data-fragment-index="2">🤝</span>
-						<div class="fragment" data-fragment-index="1">
-							<img src="assets/alpine.svg" class="r-stretch" />
+				<!-- START PEST -->
+				<section><section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg)">
+						<h3>Whats pest?</h3>
+						<div style="display: flex; align-items: center">
+							<div style="min-width: fit-content" class="fragment">
+								<p>🇩🇪 Sebastian Bergmann</p>
+								<img src="assets/sebastian.jpg" width="380" />
+							</div>
+							<img class="fragment" src="assets/phpunit.svg" width="600" />
 						</div>
 					</section>
-					<section data-transition="slide-in fade-out" data-background-color="rgb(15 23 42)">
-						<h3>AlpineJs</h3>
-						<pre data-id="code-alpine"><code class="language-php" data-line-numbers="1-13|3-5" data-noescape>class Counter extends Component
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg)">
+						<h3>Whats pest?</h3>
+						<pre data-id="code-phpunit"><code class="language-php" data-line-numbers="1-11|7-10">namespace Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+
+class ExampleTest extends TestCase
 {
-  public $count = 1;
-
-  public function increment()
-  {
-    $this->count++;
-  }
-
-  public function render()
-  {
-    return view('livewire.counter');
-  }
+    public function test_that_true_is_true(): void
+    {
+        $this->assertTrue(true);
+    }
 }</code></pre>
 					</section>
-					<section data-transition="fade-in slide-out" data-background-color="rgb(15 23 42)">
-						<h3>AlpineJs</h3>
-						<pre data-id="code-alpine"><code class="language-js" data-line-numbers="1|2-6|8-9|11-13|15-17|19-20|22-24|26-29|31-33|35-37|35-40|42-44|46-48|50-52|54-55|57-67|69-70|72-73|75-76" data-noescape>let $wire = {
-  // All component public properties are accessible
-  count: 0,
-
-  // All public methods are exposed and callable
-  increment() { ... },
-
-  // Access the `$wire` object of the parent component
-  $parent,
-
-  // Get the value of a property by name...
-  // Usage: $wire.$get('count')
-  $get(name) { ... },
-
-  // Set a property on the component by name...
-  // Usage: $wire.$set('count', 5)
-  $set(name, value) { ... },
-
-  // Toggle the value of a boolean property...
-  $toggle(name) { ... },
-
-  // Call the method
-  // Usage: $wire.$call('increment')
-  $call(method, ...params) { ... },
-
-  // Entangle the value of a Livewire property with a different,
-  // arbitrary, Alpine property...
-  // Usage: &lt;div x-data="{ count: $wire.$entangle('count') }"&gt;
-  $entangle(name, live = false) { ... },
-
-  // Watch the value of a property for changes...
-  // Usage: Alpine.$watch('count', (value, old) => { ... })
-  $watch(name, callback) { ... },
-
-  // Refresh a component by sending a commit to the server
-  // to re-render the HTML and swap it into the page...
-  $refresh() { ... },
-
-  // Alias for `$refresh`.
-  $commit() { ... },
-
-  // Listen for a an event dispatched from this component or its children...
-  // Usage: $wire.$on('post-created', () => { ... })
-  $on(event, callback) { ... },
-
-  // Dispatch an event from this component...
-  // Usage: $wire.$dispatchTo('post-created', { postId: 2 })
-  $dispatch(event, params = {}) { ... },
-
-  // Dispatch an event onto another component...
-  // Usage: $wire.$dispatchTo('dashboard', 'post-created', { postId: 2 })
-  $dispatchTo(otherComponentName, event, params = {}) { ... },
-
-  // Dispatch an event onto this component and no others...
-  $dispatchSelf(event, params = {}) { ... },
-
-  // A JS API to upload a file directly to component
-  // rather than through `wire:model`...
-  $upload(
-    name, // The property name
-    file, // The File JavaScript object
-    finish = () => { ... }, // Runs when the upload is finished...
-    error = () => { ... }, // Runs if an error is triggered mid-upload...
-    progress = (event) => { // Runs as the upload progresses...
-      event.detail.progress // An integer from 1-100...
-    },
-  ) { ... },
-
-  // API to upload multiple files at the same time...
-  $uploadMultiple(name, files, finish, error, progress) { },
-
-  // Remove an upload after it's been temporarily uploaded but not saved...
-  $removeUpload(name, tmpFilename, finish, error) { ... },
-
-  // Retrieve the underlying "component" object...
-  __instance() { ... },
-}</code></pre>
-					</section>
-				</section>
-				<!-- END ALPINE -->
-				<!-- START EVENTS -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="1-7|5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->emit('post-created');
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->emitTo('post-created', PostList::Class);
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->emitBrowserEvent('post-created');
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->dispatchBrowserEvent('post-created');
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->dispatch('post-created');
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event"><code class="language-php" data-line-numbers="5">class CreatePost extends Component
-{
-  public function save()
-  {
-    $this->dispatch('post-created')->to(PostList::class);
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event-listen"><code class="language-php" data-line-numbers="1-9|3|3-5">class PostList extends Component
-{
-  protected $listeners = ['post-created' => 'increase'];
-
-  public function increase()
-  {
-    $this->postCount++;
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event-listen"><code class="language-php" data-line-numbers="3|3-4">class PostList extends Component
-{
-  #[On('post-created')]
-  public function increase()
-  {
-    $this->postCount++;
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event-listen"><code class="language-php" data-line-numbers="3-4">class PostList extends Component
-{
-  #[On('post-created')]
-  #[On('post-imported')]
-  public function increase()
-  {
-    $this->postCount++;
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event-listen-js"><code class="language-blade" data-noescape>
-&lt;!-- from Livewire component --&gt;
-&lt;div x-on:post-created="..."&gt;&lt;/div&gt;
-						</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Events</h3>
-						<pre data-id="code-event-listen-js"><code class="language-blade" data-noescape>
-&lt;!-- from any Livewire component on the page --&gt;
-&lt;div x-on:post-created.window="..."&gt;&lt;/div&gt;
-						</code></pre>
-					</section>
-				</section>
-				<!-- END EVENTS -->
-				<!-- START ATTRIBUTES -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<ul style="list-style: none">
-							<li class="fragment" style="display: inline-flex; align-items: center; gap:1rem;">😊 since<img src="assets/php.svg" height="26px" />8.0</li>
-							<li class="fragment">😢 parameters behave like CONST</li>
-							<li class="fragment">😢 no dynamic data, no closures</li>
-							<li class="fragment">🤙 we use them anyways</li>
-						</ul>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes"><code class="language-php" data-line-numbers="1|2|4">
-protected $listeners = ['post-created' => 'increase'];
-
-#[On('post-created')]
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes-2"><code class="language-php" data-line-numbers="5-8|2-3">
-public $name = '';
-public $email = '';
-
-protected $rules = [
-  'name' => 'required|min:6',
-  'email' => 'required|email',
-];
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes-2"><code class="language-php" data-line-numbers="3,5|1-5">
-#[Rule('required|min:6')]
-public $name = '';
-#[Rule('required|email')]
-public $email = '';
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes-3"><code class="language-php">
-#[Title('some-title')]
-#[Layout('layouts.app-with-title')]
-public function render()
-{
-  return view('show-name');
-}
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre><code class="language-php" data-line-numbers="2-3|2,5|7-9|2-3,7,9" data-noescape>
-// Parent
-public $todo = '';
-
-&lt;livewire:child wire:model="todo" /&gt;
-
-// Child
-#[Modelable] // binds wire:model
-public $value = '';
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre><code class="language-php" data-line-numbers="2-6|8|8-9|11-12|14-15" data-noescape>
-#[Computed]
-public function users()
-{
-  return User::all();
-}
-
-#[Computed(persist: true)] // default 1 hour
-#[Computed(persist: true, seconds: 42)]
-
-// all instances will share this, kinda static
-#[Computed(cache: true)]
-
-// Busting the cache
-unset($this->users);</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre><code class="language-php" data-line-numbers="3|2-3|2-4|6-8|10-12|14-15" data-noescape>
-#[Url]
-public $search = 'abc';
-https://example.com/users?search=abc
-
-#[Url(as: 'q')]
-public $search = 'caleb';
-https://example.com/users?q=caleb
-
-#[Url(keep: true)]
-public $search = '';
-https://example.com/users?search=
-
-#[Url(history: true)]
-// history.pushState
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes-locked"><code class="language-php" data-line-numbers="2-3|5-8" data-noescape>
-#[Locked]
-public $postId;
-
-#[Computed]
-public function user() {
-  return Post::find($this->postId);
-}
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre data-id="code-attributes-locked"><code class="language-php" data-line-numbers="1-3" data-noescape>
-// Livewire locks models per default
-public Post $post;
-
-
-
-
-
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-						<pre><code class="language-php" data-line-numbers="5-7|2-3" data-noescape>
-#[Js]
-public function reset()
-{
-  return <<<'JS'
-    $wire.query = '';
-  JS;
-}
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>#[Attribute]</h3>
-<pre data-id="code-attributes"><code class="language-php">#[On]
-#[Rule]
-#[Url]
-#[Computed]
-#[Js]
-#[Layout]
-#[Title]
-#[Locked]
-#[Renderless]
-#[Modelable]
-#[Reactive]</code></pre>
-					</section>
-				</section>
-				<!-- END ATTRIBUTES -->
-				<!-- START REDIRECT -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Redirect</h3>
-						<pre><code class="language-php" data-line-numbers="4" data-noescape data-id="code-redirect">
-public function save()
-{
-  return $this->redirect('/some-url-that-i-cant-remember');
-}
-</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Redirect</h3>
-						<pre><code class="language-php" data-line-numbers="4" data-noescape data-id="code-redirect">
-public function save()
-{
-  return $this->redirect(ShowPage::class);
-}
-</code></pre>
-					</section>
-				</section>
-				<!-- END REDIRECT -->
-				<!-- START DIRTY -->
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>Dirty state</h3>
-					<pre><code class="language-blade" data-line-numbers="3|3,7|5|5,7" data-noescape data-id="code-dirty">
-&lt;form wire:submit="update"&gt;
-    &lt;input type="text" wire:model="title"/&gt;
-
-    &lt;button type="submit"&gt;Update&lt;/button&gt;
-
-    &lt;div wire:dirty&gt;Unsaved changes...&lt;/div&gt;
-&lt;/form&gt;
-</code></pre>
-				</section>
-				<!-- END DIRTY -->
-				<!-- START TELEPORT -->
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>@TELEPORT</h3>
-					<pre><code class="language-blade" data-line-numbers="1-14|7-11" data-noescape data-id="code-teleport">
-&lt;div&gt;
-    &lt;!-- Modal --&gt;
-    &lt;div x-data="{ open: false }"&gt;
-        &lt;button @click="open = ! open"&gt;Toggle Modal&lt;/button&gt;
-
-        @teleport('body')
-            &lt;div x-show="open"&gt;
-                Modal contents...
-            &lt;/div&gt;
-        @endteleport
-    &lt;/div&gt;
-&lt;/div&gt;
-</code></pre>
-				</section>
-				<!-- END TELEPORT -->
-				<!-- START FORM -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Form object</h3>
-						<pre><code class="language-php" data-line-numbers="1-16|4|6-9" data-noescape data-id="code-form-object">// v2
-class EditPost extends Component
-{
-  public Post $post;
-
-  protected $rules = [
-    'post.title' => 'required|string|min:6',
-    'post.content' => 'required|string|max:500',
-  ];
-
-  public function save()
-  {
-    $this->validate();
-    $this->post->save();
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Form object</h3>
-						<pre><code class="language-php" data-line-numbers="1-16|4|4,7,10|6-10" data-noescape data-id="code-form-object">// v3
-PostForm extends Form
-{
-  public Post $post;
-
-  #[Rule('required|string|min:6')]
-  public $title = '';
-
-  #[Rule('required|string|max:500')]
-  public $content = '';
-
-
-
-
-
-}</code></pre>
-					</section>
-				</section>
-				<!-- END FORM -->
-				<!-- START MISC -->
-				<section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>SPA mode</h3>
-						<pre><code class="language-blade" data-id="code-spa" data-noescape>&lt;a href="/profile"&gt;Profile&lt;/a&gt;</code></pre>
-						<p>&nbsp;</p>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>SPA mode</h3>
-						<pre><code class="language-blade" data-id="code-spa" data-noescape>&lt;a href="/profile" wire:navigate&gt;Profile&lt;/a&gt;</code></pre>
-						<p class="fragment">✅ progress bar included (nprogress)</p>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>@persist</h3>
-						<pre><code class="language-blade" data-id="code-persist" data-noescape>@persist('player')
-  &lt;audio src="{{ $episode->file }}" controls&gt;&lt;/audio&gt;
-@endpersist</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Lazy loading</h3>
-						<pre><code class="language-bash" data-id="code-lazy" data-noescape>&lt;livewire:revenue lazy /&gt;</code></pre>
-						<pre><code class="language-php" data-line-numbers="1-16|3-6|8-15" data-noescape data-id="code-lazy-placeholder">class Revenue extends Component
-{
-  public function mount()
-  {
-    // Expensive database query...
-  }
-
-  public function placeholder()
-  {
-    return <<<'HTML'
-      &lt;div&gt;
-        &lt;!-- Loading spinner... --&gt;
-      &lt;/div&gt;
-    HTML;
-  }
-}</code></pre>
-					</section>
-					<section data-auto-animate data-background-color="rgb(15 23 42)">
-						<h3>Automatic upgrade</h3>
-						<div style="display:flex; gap:2rem;">
-							<div>
-								<p class="fragment" data-fragment-index="1">🇳🇱 Philo Hermans</p>
-								<div class="r-stretch">
-									<img src="assets/philo.jpg" class="fragment" data-fragment-index="1" />
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Whats pest?</h3>
+						<div style="display: flex; align-items: center; gap: 2rem">
+							<div style="min-width: fit-content">
+								<p class="fragment" data-fragment-index="1">🇵🇹 Nuno Maduro</p>
+								<div class="r-stack">
+									<img class="fragment" data-fragment-index="1" src="assets/nuno-left.jpg" width="380" />
+									<img class="fragment" data-fragment-index="2" src="assets/nuno-rigth.jpg" width="380" />
+									<img class="fragment" data-fragment-index="3" src="assets/nuno-og.jpg" width="380" />
 								</div>
 							</div>
-							<pre class="fragment" data-fragment-index="2"><code class="language-shell" data-id="code-upgrade"
-data-line-numbers="1|1-3|1-5|1-7">$ php artisan livewire:upgrade
+							<img class="fragment" data-fragment-index="4" src="assets/pest.svg" width="600" />
+						</div>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Whats pest?</h3>
+						<pre data-id="code-phpunit"><code class="language-php" data-line-numbers="7-10">namespace Tests\Unit;
 
-LIVEWIRE v2 to v3 UPGRADE 🎉
+use PHPUnit\Framework\TestCase;
 
-✅ Migrate
-
-Done.
-</code></pre>
+class ExampleTest extends TestCase
+{
+    public function test_that_true_is_true(): void
+    {
+        $this->assertTrue(true);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Whats pest?</h3>
+						<pre data-id="code-pest"><code class="language-php">test('true is true', function () {
+    expect(true)->toBeTrue();
+});</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Whats pest?</h3>
+						<div style="display: flex; gap:2rem;">
+							<div class="fragment">
+								<div data-qr="https://laracasts.com/series/pest-driven-laravel"></div>
+								<img src="assets/christoph.jpg" width="125" height="125" style="border-radius: 100%" />
+							</div>
+							<div class="fragment">
+								<div data-qr="https://pestphp.com"></div>
+								<img src="assets/pest-letter.svg" width="125"/>
+							</div>
+							<div class="fragment">
+								<div data-qr="https://github.com/pestphp/pest"></div>
+								<img src="assets/github.svg"/>
+							</div>
 						</div>
 					</section>
 				</section>
-				<!-- END MISC -->
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>Call to action</h3>
-					<ul style="list-style: none">
-						<li class="fragment">💻 Test Livewire 3 in your app</li>
-						<li class="fragment">📝 Check discussions before reporting a bug 🐛</li>
-						<li class="fragment">💪 Report bugs (with failing test ✨)</li>
-					</ul>
-				</section>
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>What's next</h3>
-					<h5 class="fragment">Dev tools</h5>
-					<div class="r-stretch">
-						<img src="assets/livewire-dev-tools.jpg" class="fragment" />
-					</div>
-				</section>
-				<!-- PPL -->
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>📢 Shout out</h3>
-					<div style="display:flex; gap:2rem; align-items:center;">
-						<div>
-							<p class="fragment" data-fragment-index="1">🇦🇺 Josh Hanley</p>
-							<div class="r-stretch">
-								<img src="assets/josh.jpg" class="fragment" data-fragment-index="1" />
-							</div>
-						</div>
-						<ul style="list-style: none; min-width:28ch;">
-							<li class="fragment">⛵ lives on a boat</li>
-							<li class="fragment">🤗 super handsome guy</li>
-							<li class="fragment">❓ takes care about issues</li>
-							<li class="fragment">📝 helps you writing failing tests</li>
-							<li class="fragment">⌛ busy since v3 public beta</li>
-							<li class="fragment">⚠️ be patient</li>
+				<!-- END PEST -->
+				<!-- START ACTIONS -->
+				<section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Casual test</h3>
+						<pre class="fragment" data-id="code-intro"><code class="language-php" data-line-numbers="1-16|2|2-3|2-4|2-5|7|7-9|7-10|7-11|13|13-14|13-16|13-18|21-34">it('can publish a podcast', function() {
+	// Arrange
+    Event::fake();
+    $podcast = Podcast::factory()->unpublished()->create();
+    $user = User::factory()->create();
+
+	// Act
+    $this
+        ->actingAs($user)
+        ->post('/podcast/1/publish')
+        ->assertOk();
+
+	// Assert
+    expect($podcast->refresh())
+        ->published_at->toBeSameDatetime(now())
+        ->published_by_id->toBe($user->id);
+
+    Event::assertDispatched(PodcastPublished::class);
+});
+
+class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        $podcast->update([
+            'published_at' => now(),
+            'published_by_id', auth()->id(),
+        ]);
+
+        PodcastPublished::dispatch($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Fat Model</h3>
+						<pre data-id="code-model"><code class="language-php" data-line-numbers="1-15|5-10|20-25|16-27|29-37|33">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        $podcast->update([
+            'published_at' => now(),
+            'published_by_id', auth()->id(),
+        ]);
+
+        PodcastPublished::dispatch($podcast);
+
+        return response()->noContent(200);
+    }
+}
+
+class Podcast extends Model
+{
+    public function publish()
+    {
+        $this->update([
+            'published_at' => now(),
+            'published_by_id', auth()->id(),
+        ]);
+
+        PodcastPublished::dispatch($podcast);
+    }
+}
+
+class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        $podcast->publish();
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Actions</h3>
+						<pre data-id="code-legacy-actions"><code class="language-php">class Podcast extends Model
+{
+    public function publish()
+    {
+        $this->update([
+            'published_at' => now(),
+            'published_by_id', auth()->id(),
+        ]);
+
+        PodcastPublished::dispatch($podcast);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Actions</h3>
+						<pre data-id="code-legacy-actions"><code class="language-php">class PublishPodcast
+{
+    public function handle(Podcast $podcast)
+    {
+        $podcast->update([
+            'published_at' => now(),
+            'published_by_id', auth()->id(),
+        ]);
+
+        PodcastPublished::dispatch($podcast);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Actions</h3>
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        $podcast->publish();
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Actions</h3>
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        (new PublishPodcast)->handle($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Yeah Actions?</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-16|18-31|22,24">it('can publish a podcast', function() {
+    Event::fake();
+    $podcast = Podcast::factory()->unpublished()->create();
+    $user = User::factory()->create();
+
+    $this
+        ->actingAs($user)
+        ->post('/podcast/1/publish')
+        ->assertOk();
+
+    expect($podcast->refresh())
+        ->published_at->toBeSameDatetime(now())
+        ->published_by_id->toBe($user->id);
+
+    Event::assertDispatched(PodcastPublished::class);
+});
+
+test('action', function() {
+    Event::fake();
+    $podcast = Podcast::factory()->unpublished()->create();
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+	(new PublishPodcast)->handle($podcast);
+
+    expect($podcast->refresh())
+        ->published_at->toBeSameDatetime(now())
+        ->published_by_id->toBe($user->id);
+
+    Event::assertDispatched(PodcastPublished::class);
+});</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Yeah Actions?</h3>
+						<ul style="list-style: none">
+							<li class="fragment">✅ readable controller</li>
+							<li class="fragment">✅ logic extracted</li>
+							<li class="fragment">✅ test extracted logic</li>
+							<li class="fragment">❌ 2 test with nearly the same code</li>
 						</ul>
-					</div>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>How I wish I could test actions</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-10|2|2-7|2-9|9">it('can publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->actingAs(User::factory()->create())
+		->post('/podcast/1/publish')
+		->assertOk();
+
+	$this->shouldHaveCalled(PublishPodcast::class);
+});</code></pre>
+					</section>
 				</section>
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
-					<h3>📢 Shout out</h3>
-					<div style="display:flex; gap:2rem; align-items:end;">
-						<div>
-							<p class="fragment" data-fragment-index="1">🇺🇸 Caleb Porzio</p>
-							<div class="r-stretch">
-								<img src="assets/caleb.jpg" class="fragment" data-fragment-index="1" />
-							</div>
-						</div>
-						<div class="fragment" style="font-size:20rem;margin:0 auto;">❤️</div>
-					</div>
+				<!-- END ACTIONS -->
+				<!-- START CONTAINER -->
+				<section>
+					<section data-auto-animate data-background-gradient="radial-gradient(rgb(219,100,81) 0%, rgb(216,90,70) 27%, rgb(15,23,42) 100%)">
+						<h3>Container</h3>
+						<img src="assets/container-bg.png" />
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Container</h3>
+						<pre data-id="code-container"><code class="language-php" data-line-numbers="1-7|9|11">class SomeController
+{
+	public function store(Request $request)
+	{
+		// dependency injection
+	}
+}
+
+app('livewire');
+
+resolve(PublishPodcast::class);</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Container</h3>
+						<pre data-id="code-container2"><code class="language-php">function app(string $requestedClass)
+{
+	static $container = [];
+
+	return $container[$requestedClass] ??= new $container();
+}</code></pre>
+					</section>
 				</section>
+				<!-- END CONTAINER -->
+				<!-- START MOCKING -->
+				<section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Mocking</h3>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1">$this->mock(MyClass::class)</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Mocking</h3>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1-12|5-6|8-9|11|1-12">$this->mock(MyClass::class)
+
+protected function mock($abstract, Closure $mock = null)
+{
+	// Instantiate a new Mock
+	$instance = Mockery::mock(...array_filter(func_get_args()));
+
+	// Register instance in the container.
+	$this->app->instance($abstract, $instance);
+
+	return $instance;
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Mocking</h3>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1|3">$this->mock(MyClass::class)
+
+app()->make(MyClass::class); // Will be an mocked instance</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Mocking</h3>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(MyClass::class)
+
+app(MyClass::class); // Will be an mocked instance</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>Mocking</h3>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(MyClass::class)
+
+resolve(MyClass::class); // Will be an mocked instance</code></pre>
+					</section>
+				</section>
+				<!-- END MOCKING -->
+				<!-- START SECRET SAUCE -->
+				<section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-10|9">it('can publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->actingAs(User::factory()->create())
+		->post('/podcast/1/publish')
+		->assertOk();
+
+	$this->shouldHaveCalled(PublishPodcast::class);
+});</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-shouldHaveCalledAction"><code class="language-php" data-line-numbers="1|3|3-4|5|6|8|8-9|8-10|8-11|11|11,6|1-13">public function shouldHaveCalledAction(...$actions): void
+{
+	collect($actions)
+		->flatten()
+		->each(function(string $action) {
+			$original = $this->app->make($action);
+
+			$this->mock($action)
+				->shouldReceive('__invoke')
+				->atLeast()->once()
+				->andReturnUsing(fn(...$args) => $original(...$args));
+		});
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-shouldHaveCalledAction"><code class="language-php">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        (new PublishPodcast)->handle($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        (new PublishPodcast)->handle($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
+{
+    public function publish(Podcast $podcast)
+    {
+        resolve(PublishPodcast::class)($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
+{
+    public function publish(
+			Podcast $podcast,
+			PublishPodcast $publish
+		) {
+        $publish($podcast);
+
+        return response()->noContent(200);
+    }
+}</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>The secret sauce</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-10|9">it('can publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->actingAs(User::factory()->create())
+		->post('/podcast/1/publish')
+		->assertOk();
+
+})->shouldHaveCalled(PublishPodcast::class);</code></pre>
+					</section>
+				</section>
+				<!-- END SECRET SAUCE -->
 				<section data-auto-animate data-background-color="rgb(15 23 42)">
 					<h3>Thanks</h3>
-					<div class="fragment r-stack" style="position: relative;">
+					<div class="fragment r-stack" style="position: relative;" data-fragment-index="4">
 						<img class="r-stretch" src="assets/head.png"/>
 						<div style="position: absolute; inset: 0; left: -10%; top: 74%;"><span class="animate-drink">🍺</span></div>
 					</div>
-					<div style="display: flex; gap:2rem;"><div>
-						<div data-qr="https://laravel-news.com/livewire-v3-beta"></div>
-							<img src="assets/laravel-news.svg"/>
+					<div style="display: flex; gap:2rem;">
+						<div class="fragment" data-fragment-index="1">
+							<div data-qr="https://gist.github.com/nuernbergerA/1917dec1ed3d1a87ecf1886d620cc73c"></div>
+							<img src="assets/github.svg"/>
 						</div>
-						<div>
-							<div data-qr="https://livewire.laravel.com"></div>
-							<img src="assets/livewire-icon.svg"/>
+						<div class="fragment" data-fragment-index="2">
+							<div data-qr="https://pestphp.com"></div>
+							<img src="assets/pest-letter.svg" width="125Spx"/>
 						</div>
-						<div>
-							<div data-qr="https://github.com/livewire/livewire"></div>
+						<div class="fragment" data-fragment-index="3">
+							<div data-qr="https://github.com/pestphp/pest"></div>
 							<img src="assets/github.svg"/>
 						</div>
 					</div>
@@ -710,9 +554,10 @@ Done.
 			</div>
 		</div>
 		<footer>
-			<img src="assets/livewire.svg" height="50px" />
 			<div style="font-size: 1.8rem;padding-top: 0.4rem;margin-left: -0.5rem; display: inline-flex; align-items: center; gap: 1rem;">
-				<span>v3</span>
+				<span>⚡ Actions in</span>
+				<img src="assets/pest.svg" height="30px" />
+				<span>|</span>
 				<span>💬 Adrian Nürnberger</span>
 				<span>|</span>
 				<img src="assets/x-logo.svg" height="25px" />
