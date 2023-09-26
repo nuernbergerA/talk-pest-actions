@@ -95,7 +95,8 @@
 				</section>
 				<!-- END INTRO -->
 				<!-- START PEST -->
-				<section><section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg)">
+				<section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg)">
 						<h3>Whats pest?</h3>
 						<div style="display: flex; align-items: center">
 							<div style="min-width: fit-content" class="fragment">
@@ -107,7 +108,7 @@
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg)">
 						<h3>Whats pest?</h3>
-						<pre data-id="code-phpunit"><code class="language-php" data-line-numbers="1-11|7-10">namespace Tests\Unit;
+						<pre data-id="code-phpunit"><code class="language-php" data-line-numbers="1-11">namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
@@ -123,19 +124,15 @@ class ExampleTest extends TestCase
 						<h3>Whats pest?</h3>
 						<div style="display: flex; align-items: center; gap: 2rem">
 							<div style="min-width: fit-content">
-								<p class="fragment" data-fragment-index="1">🇵🇹 Nuno Maduro</p>
+								<p>🇵🇹 Nuno Maduro</p>
 								<div class="r-stack">
-									<img class="fragment" data-fragment-index="1" src="assets/nuno-left.jpg" width="380" />
-									<img class="fragment" data-fragment-index="2" src="assets/nuno-rigth.jpg" width="380" />
-									<img class="fragment" data-fragment-index="3" src="assets/nuno-og.jpg" width="380" />
+									<img src="assets/nuno-left.jpg" width="380" />
+									<img class="fragment" data-fragment-index="1" src="assets/nuno-rigth.jpg" width="380" />
+									<img class="fragment" data-fragment-index="2" src="assets/nuno-og.jpg" width="380" />
 								</div>
 							</div>
-							<img class="fragment" data-fragment-index="4" src="assets/pest.svg" width="600" />
-						</div>
-					</section>
-					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
-						<h3>Whats pest?</h3>
-						<pre data-id="code-phpunit"><code class="language-php" data-line-numbers="7-10">namespace Tests\Unit;
+							<div class="r-stack">
+								<pre data-id="code-phpunit" style="width: 100%"><code class="language-php" data-line-numbers="1-11">namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
@@ -146,12 +143,48 @@ class ExampleTest extends TestCase
         $this->assertTrue(true);
     }
 }</code></pre>
+								<pre data-id="code-phpunit" style="width: 100%" class="fragment" data-fragment-index="1"><code class="language-php" data-line-numbers="7-10">namespace Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+
+class ExampleTest extends TestCase
+{
+    public function test_that_true_is_true(): void
+    {
+        $this->assertTrue(true);
+    }
+}</code></pre>
+								<pre data-id="code-phpunit" style="width: 100%" class="fragment" data-fragment-index="2"><code class="language-php" data-line-numbers="7-10">
+
+
+
+
+
+test('true is true', function () {
+    expect(true)->toBeTrue();
+});
+
+</code></pre>
+							</div>
+						</div>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Whats pest?</h3>
-						<pre data-id="code-pest"><code class="language-php">test('true is true', function () {
-    expect(true)->toBeTrue();
-});</code></pre>
+						<div style="display: flex; align-items: center; gap: 2rem">
+							<div style="min-width: fit-content">
+								<p>🇵🇹 Nuno Maduro</p>
+								<div class="r-stack">
+									<img src="assets/nuno-og.jpg" width="380" />
+								</div>
+							</div>
+							<div class="r-stack">
+								<div class="fragment fade-in" data-fragment-index="1">
+									<img class="fragment custom vanish" data-fragment-index="2" src="assets/phpunit.svg" width="600" />
+								</div>
+								<img class="fragment" style="margin-top: 10rem;" data-fragment-index="2" src="assets/phpunit.svg" width="600" />
+								<img class="fragment fade-down" data-fragment-index="2" src="assets/pest.svg" width="600" />
+							</div>
+						</div>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Whats pest?</h3>
@@ -175,7 +208,7 @@ class ExampleTest extends TestCase
 				<!-- START ACTIONS -->
 				<section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
-						<h3>Casual test</h3>
+						<h3>Regular test</h3>
 						<pre class="fragment" data-id="code-intro"><code class="language-php" data-line-numbers="1-16|2|2-3|2-4|2-5|7|7-9|7-10|7-11|13|13-14|13-16|13-18|21-34">it('can publish a podcast', function() {
 	// Arrange
     Event::fake();
@@ -186,7 +219,7 @@ class ExampleTest extends TestCase
     $this
         ->actingAs($user)
         ->post('/podcast/1/publish')
-        ->assertOk();
+        ->assertNoContent();
 
 	// Assert
     expect($podcast->refresh())
@@ -207,7 +240,7 @@ class PodcastController
 
         PodcastPublished::dispatch($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -224,7 +257,7 @@ class PodcastController
 
         PodcastPublished::dispatch($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }
 
@@ -247,7 +280,7 @@ class PodcastController
     {
         $podcast->publish();
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -289,7 +322,7 @@ class PodcastController
     {
         $podcast->publish();
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -299,15 +332,15 @@ class PodcastController
 {
     public function publish(Podcast $podcast)
     {
-        (new PublishPodcast)->handle($podcast);
+		(new PublishPodcast)->handle($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Yeah Actions?</h3>
-						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-16|18-31|22,24">it('can publish a podcast', function() {
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-16|18-31|23-24">it('can publish a podcast', function() {
     Event::fake();
     $podcast = Podcast::factory()->unpublished()->create();
     $user = User::factory()->create();
@@ -315,7 +348,7 @@ class PodcastController
     $this
         ->actingAs($user)
         ->post('/podcast/1/publish')
-        ->assertOk();
+        ->assertNoContent();
 
     expect($podcast->refresh())
         ->published_at->toBeSameDatetime(now())
@@ -328,9 +361,9 @@ test('action', function() {
     Event::fake();
     $podcast = Podcast::factory()->unpublished()->create();
     $user = User::factory()->create();
-    $this->actingAs($user);
 
-	(new PublishPodcast)->handle($podcast);
+    $this->actingAs($user);
+    (new PublishPodcast)->handle($podcast);
 
     expect($podcast->refresh())
         ->published_at->toBeSameDatetime(now())
@@ -344,7 +377,7 @@ test('action', function() {
 						<ul style="list-style: none">
 							<li class="fragment">✅ readable controller</li>
 							<li class="fragment">✅ logic extracted</li>
-							<li class="fragment">✅ test extracted logic</li>
+							<li class="fragment">✅ test for the extracted logic</li>
 							<li class="fragment">❌ 2 test with nearly the same code</li>
 						</ul>
 					</section>
@@ -356,7 +389,7 @@ test('action', function() {
 	$this
 		->actingAs(User::factory()->create())
 		->post('/podcast/1/publish')
-		->assertOk();
+		->assertNoContent();
 
 	$this->shouldHaveCalled(PublishPodcast::class);
 });</code></pre>
@@ -387,9 +420,9 @@ resolve(PublishPodcast::class);</code></pre>
 						<h3>Container</h3>
 						<pre data-id="code-container2"><code class="language-php">function app(string $requestedClass)
 {
-	static $container = [];
+	static $container ??= [];
 
-	return $container[$requestedClass] ??= new $container();
+	return $container[$requestedClass] ??= new $requestedClass();
 }</code></pre>
 					</section>
 				</section>
@@ -398,15 +431,15 @@ resolve(PublishPodcast::class);</code></pre>
 				<section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Mocking</h3>
-						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1">$this->mock(MyClass::class)</code></pre>
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1">$this->mock(PublishPodcast::class)</code></pre>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Mocking</h3>
-						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1-12|5-6|8-9|11|1-12">$this->mock(MyClass::class)
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1-12|5-6|8-9|11|1-12">$this->mock(PublishPodcast::class)
 
 protected function mock($abstract, Closure $mock = null)
 {
-	// Instantiate a new Mock
+	// Instantiate a new mock
 	$instance = Mockery::mock(...array_filter(func_get_args()));
 
 	// Register instance in the container.
@@ -417,21 +450,15 @@ protected function mock($abstract, Closure $mock = null)
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Mocking</h3>
-						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="1|3">$this->mock(MyClass::class)
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(PublishPodcast::class)
 
-app()->make(MyClass::class); // Will be an mocked instance</code></pre>
+app(PublishPodcast::class); // Will be an mocked instance</code></pre>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>Mocking</h3>
-						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(MyClass::class)
+						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(PublishPodcast::class)
 
-app(MyClass::class); // Will be an mocked instance</code></pre>
-					</section>
-					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
-						<h3>Mocking</h3>
-						<pre data-id="code-mocking"><code class="language-php" data-line-numbers="3">$this->mock(MyClass::class)
-
-resolve(MyClass::class); // Will be an mocked instance</code></pre>
+resolve(PublishPodcast::class); // Will be an mocked instance</code></pre>
 					</section>
 				</section>
 				<!-- END MOCKING -->
@@ -445,7 +472,7 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
 	$this
 		->actingAs(User::factory()->create())
 		->post('/podcast/1/publish')
-		->assertOk();
+		->assertNoContent();
 
 	$this->shouldHaveCalled(PublishPodcast::class);
 });</code></pre>
@@ -468,13 +495,13 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 						<h3>The secret sauce</h3>
-						<pre data-id="code-shouldHaveCalledAction"><code class="language-php">class PodcastController
+						<pre data-id="code-controller"><code class="language-php">class PodcastController
 {
     public function publish(Podcast $podcast)
     {
-        (new PublishPodcast)->handle($podcast);
+        (new PublishPodcast)($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -484,9 +511,9 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
 {
     public function publish(Podcast $podcast)
     {
-        (new PublishPodcast)->handle($podcast);
+        resolve(PublishPodcast::class)->handle($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -498,7 +525,7 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
     {
         resolve(PublishPodcast::class)($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
@@ -512,25 +539,63 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
 		) {
         $publish($podcast);
 
-        return response()->noContent(200);
+        return response()->noContent();
     }
 }</code></pre>
 					</section>
 					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
-						<h3>The secret sauce</h3>
-						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-10|9">it('can publish a podcast', function() {
+						<h3>😎 Pest tests</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-9|9">it('can publish a podcast', function() {
 	Podcast::factory()->unpublished()->create();
 
 	$this
 		->actingAs(User::factory()->create())
 		->post('/podcast/1/publish')
-		->assertOk();
+		->assertNoContent();
 
 })->shouldHaveCalled(PublishPodcast::class);</code></pre>
 					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>😎 Pest tests</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-9">it('can publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->actingAs(User::factory()->create())
+		->post('/podcast/1/publish')
+		->assertNoContent();
+
+})->shouldHaveCalled(PublishPodcast::class, SendNotification::class);</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>😎 Pest tests</h3>
+						<pre data-id="code-test"><code class="language-php" data-line-numbers="1-12">it('can publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->actingAs(User::factory()->create())
+		->post('/podcast/1/publish')
+		->assertNoContent();
+
+})->shouldHaveCalled([
+	PublishPodcast::class,
+	SendNotification::class,
+]);</code></pre>
+					</section>
+					<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
+						<h3>😎 Pest tests</h3>
+						<pre data-id="code-test3"><code class="language-php" data-line-numbers="1-8|8">it('will not publish a podcast', function() {
+	Podcast::factory()->unpublished()->create();
+
+	$this
+		->post('/podcast/1/publish')
+		->assertForbidden();
+
+})->shouldNotHaveCalled(PublishPodcast::class);</code></pre>
+					</section>
 				</section>
 				<!-- END SECRET SAUCE -->
-				<section data-auto-animate data-background-color="rgb(15 23 42)">
+				<section data-auto-animate data-background="repeat 10px/40px url(assets/pattern.svg), no-repeat center 350%/contain url(assets/bg-foot.webp)">
 					<h3>Thanks</h3>
 					<div class="fragment r-stack" style="position: relative;" data-fragment-index="4">
 						<img class="r-stretch" src="assets/head.png"/>
@@ -546,8 +611,8 @@ resolve(MyClass::class); // Will be an mocked instance</code></pre>
 							<img src="assets/pest-letter.svg" width="125Spx"/>
 						</div>
 						<div class="fragment" data-fragment-index="3">
-							<div data-qr="https://github.com/pestphp/pest"></div>
-							<img src="assets/github.svg"/>
+							<div data-qr="https://laracasts.com/series/pest-driven-laravel"></div>
+							<img src="assets/christoph.jpg" width="125" height="125" style="border-radius: 100%" />
 						</div>
 					</div>
 				</section>
